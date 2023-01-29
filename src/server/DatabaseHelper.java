@@ -1,5 +1,6 @@
 package server;
 
+import java.awt.*;
 import java.sql.*;
 
 public class DatabaseHelper extends Config {
@@ -13,5 +14,23 @@ public class DatabaseHelper extends Config {
         return dbConnection;
     }
 
+    public void addPlayer(String name, Integer mmr) {
+        String addUser = "INSERT INTO " + Constants.PLAYERS_TABLE +
+                "(" + Constants.PLAYERS_NAME + "," + Constants.PLAYERS_MMR + ")" +
+                "VALUES(?,?)";
+
+        try {PreparedStatement prState = getDbConnection().prepareStatement(addUser);
+            prState.setString(1, name);
+            prState.setInt(2, mmr);
+
+            prState.executeUpdate();
+
+        } catch (SQLException sqlE) {
+            sqlE.printStackTrace();
+        } catch (ClassNotFoundException cnfE){
+            cnfE.printStackTrace();
+        }
+
+    }
 
 }
